@@ -16,25 +16,35 @@ class EnterInfoHandler(webapp2.RequestHandler):
             "greeting": "Howdy",
             "adjective": "amazing"
         }
-        self.response.write(welcome_template.render(a_variable_dict)) 
+        self.response.write(welcome_template.render(a_variable_dict))
+
 
 class ShowMemeHandler(webapp2.RequestHandler):
     def get(self):
         results_template = the_jinja_env.get_template('templates/results.html')
+        first_input = self.request.get('user-first-ln')
+        second_input = self.request.get('user-second-ln')
         the_variable_dict = {
-            "line1": "If Cinderella's shoe was a perfect fit",
-            "line2": "Why did it fall off?",
-            "img_url": "https://upload.wikimedia.org/wikipedia/commons/f/ff/Deep_in_thought.jpg"
+             'line1': first_input,
+             'line2': second_input,
+             "img_url": "https://upload.wikimedia.org/wikipedia/commons/f/ff/Deep_in_thought.jpg"
         }
         self.response.write(results_template.render(the_variable_dict))
 
+# class MyPostHandler(webapp2.RequestHandler):
+#   def post(self):
+#     first_input = self.request.get('user-first-ln')
+#     template_vars = { 'line1': first_input }
+#     template = jinja_env.get_template('templates/result.html')
+#     self.response.write(template.render(template_vars))
+#
 
 
 # the app configuration section
 app = webapp2.WSGIApplication([
   ('/', MainPage),
   ('/welcome', EnterInfoHandler),
-  ('/memeresult', ShowMemeHandler)
+  ('/result', ShowMemeHandler)
   ], debug=True)
 
 # this initializes the jinja2 environment
