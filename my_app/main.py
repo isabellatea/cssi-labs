@@ -24,10 +24,22 @@ class ShowMemeHandler(webapp2.RequestHandler):
         results_template = the_jinja_env.get_template('templates/results.html')
         first_input = self.request.get('user-first-ln')
         second_input = self.request.get('user-second-ln')
+        memeChoice = self.request.get('meme-type')
+
+        def memeImage(memeChoice):
+            if memeChoice == "college-grad":
+                return 'https://i.imgur.com/pcGBKPV.jpg'
+            elif memeChoice == "thinking-ape":
+                return 'https://upload.wikimedia.org/wikipedia/commons/f/ff/Deep_in_thought.jpg'
+            elif memeChoice == "coding":
+                return 'https://i.imgur.com/ADFuzRK.jpg'
+            elif memeChoice == "old-class":
+                return 'https://i.imgur.com/xR4oidf.jpg'
+
         the_variable_dict = {
              'line1': first_input,
              'line2': second_input,
-             "img_url": "https://upload.wikimedia.org/wikipedia/commons/f/ff/Deep_in_thought.jpg"
+             "img_url": memeImage(memeChoice)
         }
         self.response.write(results_template.render(the_variable_dict))
 
